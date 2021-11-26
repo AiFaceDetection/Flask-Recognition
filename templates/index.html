@@ -1,5 +1,23 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>This is index</h1>
+<h1>This is index Hello</h1>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Streaming</h3>
+            <img src="{{ url_for('main_feed') }}" width="100%">
+            <h3>name: {{ identify[0] }}<h3>
+
+            <a href="/identi">Identify</a>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 {% endblock %}

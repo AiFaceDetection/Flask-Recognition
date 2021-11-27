@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>This is index Hello</h1>
+
+<h1>ekyc software</h1>
 
 
 
@@ -10,9 +11,20 @@
             <h3 class="mt-5">Live Streaming</h3>
             <img src="{{ url_for('main_feed') }}" width="100%">
             <h3>name: {{ identify[0] }}<h3>
+            <h3>issameface: {{ compareRea[0] }}</h3>
+
 
             <a href="/identi">Identify</a>
         </div>
+    </div>
+</div>
+
+<div class="howtouse">
+    <p1>This software will identify your face's indentity and compare faces appeared in both boxs.</p1></br>
+    <p1>On left box. Hold your student's card straight and clear inside the box.</p1></br>
+    <p1>On right box. Position yourself in the center of the box with your face straight and clear</p1></br>
+    <div class="example">
+        <img src="static\example_img.png">
     </div>
 </div>
 

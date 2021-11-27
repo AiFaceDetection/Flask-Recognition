@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <style>
-  .accordion_button{
+  .collapse_button{
     display: block;
     width: 100%;
     padding: 15px;
@@ -14,19 +14,19 @@
     border-top-right-radius: 1rem;
   }
 
-  .accordion_button::after {
+  .collapse_button::after {
       content: '\25be';
       float: right;
       transform: scale(1.5);
   }
 
-  .accordion_button--active{background: #555555;}
-  .accordion_button--active::after{content: '\25b4';}
+  .collapse_button--active{background: #555555;}
+  .collapse_button--active::after{content: '\25b4';}
 
-  .accordion_content {
+  .collapse_content {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.2s;
+    transition: max-height 1s;
     text-align: left;
     color: black;
     padding: 0 15px;
@@ -52,8 +52,8 @@
         </form>
 
         <div class="accordion">
-          <button type="button" class="accordion_button">Register Instruction</button>
-          <div class="accordion_content">
+          <button type="button" class="collapse_button">Register Instruction</button>
+          <div class="collapse_content">
             <p>
               Step 1: กรอกชื่อในช่องฟอร์มให้เป็นสีเขียว<br>
               Step 2: หันหน้าตรงกลางหน้าจอ จากนั้น กดปุ่ม "Capture"<br>
@@ -101,13 +101,13 @@
     $.post("/train_model", {});
   }
 
-  document.querySelectorAll('.accordion_button').forEach(button=> {
+  document.querySelectorAll('.collapse_button').forEach(button=> {
     button.addEventListener('click', () => {
       const accordionContent = button.nextElementSibling;
 
-      button.classList.toggle('accordion_button--active');
+      button.classList.toggle('collapse_button--active');
 
-      if(button.classList.contains('accordion_button--active')) {
+      if(button.classList.contains('collapse_button--active')) {
         accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
       } else {
         accordionContent.style.maxHeight = 0;

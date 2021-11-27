@@ -1,11 +1,12 @@
 from flask import Flask, render_template, Response, request, sessions, url_for, redirect
 from faceIdentification import predict
+from faceComparison import compare
 import cv2
 import os
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(2)  # use 0 for web camera
+camera = cv2.VideoCapture(0)  # use 0 for web camera
 camera.set(3,1920)
 
 HEIGHT = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -22,12 +23,12 @@ def main_frames():
         success, frame = camera.read()  # read the camera frame
 
         # card
-        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), frame[0+20:HEIGHT-20, 0+20:int(40 * WIDTH // 100)-20])
+        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), frame[HEIGHT-int(HEIGHT//1.5):int(HEIGHT//1.5), 0+20:int(40 * WIDTH // 100)-20])
         # face
         cv2.imwrite(os.path.join(face_dir , 'face.jpg'), frame[0+20:HEIGHT-20, int(40 * WIDTH // 100)+20: int(40 * WIDTH // 100) + WIDTH - int(40 * WIDTH // 100)-20])
         
         # Mask for CARD
-        cv2.rectangle(frame, (0+10, 0+10), (int(40 * WIDTH // 100)-10, HEIGHT-10), (255, 255, 255), 4)
+        cv2.rectangle(frame, (0+10, int(HEIGHT//1.5)), (int(40 * WIDTH // 100)-10, HEIGHT-int(HEIGHT//1.5)), (255, 255, 255), 4)
         # Mask for FACE
         cv2.rectangle(frame, (int(40 * WIDTH // 100)+10, 0+10), (WIDTH-10, HEIGHT-10), (255, 255, 255), 4)
         
@@ -48,9 +49,13 @@ def identification():
         names.append(name)
     return names
 
+def comparison():
+    reasult = compare()
+    return reasult
+
 @app.route('/')
 def index():
-    return render_template('index.html',  identify = [])
+    return render_template('index.html', identify = [], compareRea=[])
 
 @app.route('/main_feed')
 def main_feed():
@@ -58,7 +63,9 @@ def main_feed():
 
 @app.route('/identi')
 def identi():
-    return render_template('index.html',  identify = identification())
+    return render_template('index.html', identify = identification(), compareRea = comparison())
+
+
 
 from register_route import *
     

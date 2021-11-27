@@ -1,6 +1,40 @@
 {% extends 'base.html' %} {% block content %}
+<style>
+  .accordion_button{
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #333333;
+    color: white;
+    text-align: left;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
 
+  .accordion_button::after {
+      content: '\25be';
+      float: right;
+      transform: scale(1.5);
+  }
 
+  .accordion_button--active{background: #555555;}
+  .accordion_button--active::after{content: '\25b4';}
+
+  .accordion_content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s;
+    text-align: left;
+    color: black;
+    padding: 0 15px;
+    background: white;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+</style>
 <div class="container">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
@@ -8,25 +42,39 @@
         <h3 class="text-white mx-auto">Name</h3>
         <form class="was-validated">
           <input
-          class="form-control"
-          type="text"
-          placeholder="Enter name"
-          name="fname"
-          id="input"
-          required
-        /><br>
+            class="form-control"
+            type="text"
+            placeholder="Enter name"
+            name="fname"
+            id="input"
+            required
+          /><br />
         </form>
-        
-          <img src="{{ url_for('video_feed') }}" width="100%" />
 
-          <button class="loginBtn py-10" onclick="start()" type="button">
-            Capture
-          </button>
-          <button class="loginBtn py-10" onclick="train()" type="button">
-            Train
-          </button>
+        <div class="accordion">
+          <button type="button" class="accordion_button">Register Instruction</button>
+          <div class="accordion_content">
+            <p>
+              Step 1: กรอกชื่อในช่องฟอร์มให้เป็นสีเขียว<br>
+              Step 2: หันหน้าตรงกลางหน้าจอ จากนั้น กดปุ่ม "Capture"<br>
+              Step 3: หันหน้าไปทางซ้าย จากนั้น กดปุ่ม "Capture"<br>
+              Step 4: หันหน้าไปทางขวา จากนั้น กดปุ่ม "Capture"<br>
+              Step 5: นำบัตรนักเรียนมาไว้ตรงกลางจอ จากนั้น กดปุ่ม "Capture"<br>
+              Step 6: กดปุ่ม "Train"
+            </p>
+          </div>
+        </div>
+        <br>
+        <img src="{{ url_for('video_feed') }}" width="100%" />
 
-          <h1>{{message}}</h1>
+        <button class="loginBtn py-10" onclick="start()" type="button">
+          Capture
+        </button>
+        <button class="loginBtn py-10" onclick="train()" type="button">
+          Train
+        </button>
+
+        <h1>{{message}}</h1>
       </div>
     </div>
   </div>
@@ -52,6 +100,20 @@
   function train() {
     $.post("/train_model", {});
   }
+
+  document.querySelectorAll('.accordion_button').forEach(button=> {
+    button.addEventListener('click', () => {
+      const accordionContent = button.nextElementSibling;
+
+      button.classList.toggle('accordion_button--active');
+
+      if(button.classList.contains('accordion_button--active')) {
+        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+      } else {
+        accordionContent.style.maxHeight = 0;
+      }
+    })
+  })
 </script>
 
 {% endblock %}

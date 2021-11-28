@@ -22,12 +22,14 @@ def register():
 @app.route('/takeimage', methods = ['POST'])
 def takeimage():
     name = request.form['name']
-    count = request.form['count']
     path = "./images/"+name+"/"
     try:
         os.makedirs(path)
     except:
         pass
+    list = os.listdir(path) # dir is your directory path
+    number_files = len(list)
+    count = str(number_files+1)
     _, frame = camera.read()
     cv2.imwrite(f'{path+name+count}.jpg', frame)
     return Response(status = 200)

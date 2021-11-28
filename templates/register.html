@@ -34,11 +34,19 @@
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
   }
+
+  .container {
+    background: rgb(35,38,40);
+    color: white;
+    padding-top: 3%;
+    padding-bottom: 5%;
+    border-radius: 30px;
+}
 </style>
 <div class="container" style="padding: 1.5rem;">
   <div class="row">
     <div class="col-lg-8 offset-lg-2">
-      <div class="box">
+      
         <h3 class="text-white mx-auto">Name</h3>
         <form class="was-validated">
           <input
@@ -67,7 +75,7 @@
         <br>
         <img src="{{ url_for('video_feed') }}" width="100%" />
 
-        <button class="loginBtn py-10" onclick="start()" type="button">
+        <button class="loginBtn py-10" onclick="capture()" type="button">
           Capture
         </button>
         <button class="loginBtn py-10" onclick="train()" type="button">
@@ -75,25 +83,18 @@
         </button>
 
         <h1>{{message}}</h1>
-      </div>
+      
     </div>
   </div>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <script>
-  let count = 1;
-
-  function start() {
-    myFunction(count);
-    count += 1;
-  }
-
-  function myFunction(i) {
+  
+  function capture() {
     var name = document.getElementById("input").value;
     $.post("/takeimage", {
       name: name,
-      count: i,
     });
   }
 

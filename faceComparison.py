@@ -32,4 +32,4 @@ def compare():
 
         return face_recognition.compare_faces([biden_encoding], unknown_encoding)
     except:
-        return ["No face found"]
+        return ["Face not detected"]

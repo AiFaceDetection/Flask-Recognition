@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0)  # use 0 for web camera
+camera = cv2.VideoCapture(1)  # use 0 for web camera
 camera.set(3,1920)
 
 HEIGHT = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -47,6 +47,9 @@ def identification():
     names = []
     for name, (top, right, bottom, left) in predictions:
         names.append(name)
+
+    if len(names) == 0:
+        names= ["Face not detected"]
     return names
 
 def comparison():

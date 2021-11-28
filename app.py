@@ -1,3 +1,4 @@
+from tkinter.constants import E
 from flask import Flask, render_template, Response, request, sessions, url_for, redirect
 from faceIdentification import predict
 from faceComparison import compare
@@ -6,7 +7,7 @@ import os
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(1)  # use 0 for web camera
+camera = cv2.VideoCapture(0)  # use 0 for web camera
 camera.set(3,1920)
 
 HEIGHT = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -34,7 +35,8 @@ def main_frames():
         
         if not success:
             break
-        else:            
+        else:        
+            
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -45,12 +47,13 @@ def identification():
     full_file_path = os.path.join(face_dir , 'face.jpg')
     predictions = predict(full_file_path, model_path="trained_knn_model.clf")
     names = []
-    for name, (top, right, bottom, left) in predictions:
-        names.append(name)
-
-    if len(names) == 0:
-        names= ["Face not detected"]
-    return names
+    try:
+        for name, (top, right, bottom, left) in predictions:
+            names.append(name)
+    finally:
+        if len(names) == 0:
+            names= ["Face not detected"]
+        return names
 
 def comparison():
     reasult = compare()

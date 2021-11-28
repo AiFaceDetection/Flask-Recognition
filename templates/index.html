@@ -45,7 +45,6 @@
   }
 
   .identifyBtn {
-    margin-top: 2%;
     background: rgb(65, 65, 65);
     color: white;
     border-radius: 25px;
@@ -82,6 +81,10 @@
 .row {
     justify-content: center;
 }
+
+.helpText {
+    padding-top: 3%;
+}
 </style>
 
 <div class="container">
@@ -105,11 +108,12 @@
             <img src="{{ url_for('main_feed') }}" width="100%">
 
             <div class="result">
-                <h3>name: {{ identify[0] }}</h3>
-                <h3>issameface: {{ compareRea[0] }}</h3>
+                <h3>Name: {{ identify[0] }}</h3>
+                <h3>Compare result: {{ compareRea[0] }}</h3>
             </div>
 
             <a class="identifyBtn" href="/identi">Identify and Compare</a>
+            <p class="helpText">or press <strong>"Spacebar"</strong> to Identify and Compare</p>
         </div>
     </div>
 </div>
@@ -128,6 +132,12 @@
             }
         })
      })
+
+    document.body.onkeyup = function(e){
+        if(e.keyCode == 32){
+            window.location.href = "./identi";
+        }
+    }
 </script>
 
 

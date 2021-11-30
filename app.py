@@ -4,6 +4,7 @@ from faceIdentification import predict
 from faceComparison import compare
 import cv2
 import os
+import dlib
 
 app = Flask(__name__)
 
@@ -18,15 +19,21 @@ unknown_dir = os.path.join(BASE_DIR, "unknown")
 card_dir = os.path.join(BASE_DIR, "card")
 face_dir = os.path.join(BASE_DIR, "face")
 
+face_cascade = cv2.CascadeClassifier("cascades\data\haarcascade_frontalface_alt2.xml")
 
 def main_frames():
     while True:
         success, frame = camera.read()  # read the camera frame
 
+        card_frame = frame[HEIGHT-int(HEIGHT//1.4):int(HEIGHT//1.4), 0+20:int(40 * WIDTH // 100)-20]
+        face_frame = frame[0+20:HEIGHT-20, int(40 * WIDTH // 100)+20: int(40 * WIDTH // 100) + WIDTH - int(40 * WIDTH // 100)-20]
+
+        card_frame = rescale_frame(card_frame, percent=200)
+
         # card
-        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), frame[HEIGHT-int(HEIGHT//1.4):int(HEIGHT//1.4), 0+20:int(40 * WIDTH // 100)-20])
+        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), card_frame)
         # face
-        cv2.imwrite(os.path.join(face_dir , 'face.jpg'), frame[0+20:HEIGHT-20, int(40 * WIDTH // 100)+20: int(40 * WIDTH // 100) + WIDTH - int(40 * WIDTH // 100)-20])
+        cv2.imwrite(os.path.join(face_dir , 'face.jpg'), face_frame)
         
         # Mask for CARD
         cv2.rectangle(frame, (0+10, int(HEIGHT//1.4)), (int(40 * WIDTH // 100)-10, HEIGHT-int(HEIGHT//1.4)), (255, 255, 255), 4)
@@ -36,7 +43,12 @@ def main_frames():
         if not success:
             break
         else:        
-            
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.5, minNeighbors = 5)
+
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x,y), ((x+w), (y+h)), (255, 0, 0), 2)
+
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -59,6 +71,13 @@ def comparison():
     reasult = compare()
     return reasult
 
+def rescale_frame (frame, percent=75):
+    scale_percent = 75
+    width = int(frame.shape[1] * scale_percent / 100)
+    height = int(frame.shape[0] * scale_percent / 100) 
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation= cv2.INTER_AREA)
+
 @app.route('/')
 def index():
     return render_template('index.html', identify = [], compareRea=[])
@@ -70,7 +89,6 @@ def main_feed():
 @app.route('/identi')
 def identi():
     return render_template('index.html', identify = identification(), compareRea = comparison())
-
 
 
 from register_route import *

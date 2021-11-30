@@ -35,14 +35,17 @@ def compare():
         return ["Face not detected"]
 
 # def compare():
-#     face_path = face_recognition.load_image_file('face/face.jpg')
-#     card_path = face_recognition.load_image_file('card/card.jpg')
+#     try:
+#         face_path = face_recognition.load_image_file('face/face.jpg')
+#         card_path = face_recognition.load_image_file('card/card.jpg')
 
-#     models = ["VGG-Face", "Facenet", "Facenet512", "OpenFace", "DeepFace", "DeepID", "ArcFace", "Dlib"]
-#     model_name = "ArcFace"
+#         models = ["VGG-Face", "Facenet", "Facenet512", "OpenFace", "DeepFace", "DeepID", "ArcFace", "Dlib"]
+#         model_name = "Facenet"
 
-#     result = DeepFace.verify(img1_path=face_path, img2_path=card_path, model_name=model_name)
+#         result = DeepFace.verify(img1_path=face_path, img2_path=card_path, model_name=model_name)
 
-#     print(result)
+#         print(result)
 
-#     return result
+#         return result
+#     except:
+#         return ["Face not detected"]

@@ -20,16 +20,29 @@ unknown_dir = os.path.join(BASE_DIR, "unknown")
 card_dir = os.path.join(BASE_DIR, "card")
 face_dir = os.path.join(BASE_DIR, "face")
 
+# def compare():
+#     # face_file_path = os.path.join(face_dir , 'face.jpg')
+#     # card_file_path = os.path.join(face_dir , 'card.jpg')
+#     try:
+#         known_image = face_recognition.load_image_file('card/card.jpg')
+#         unknown_image = face_recognition.load_image_file('face/face.jpg')
+
+#         biden_encoding = face_recognition.face_encodings(known_image)[0]
+#         unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+
+#         return face_recognition.compare_faces([biden_encoding], unknown_encoding)
+#     except:
+#         return ["Face not detected"]
+
 def compare():
-    # face_file_path = os.path.join(face_dir , 'face.jpg')
-    # card_file_path = os.path.join(face_dir , 'card.jpg')
-    try:
-        known_image = face_recognition.load_image_file('card/card.jpg')
-        unknown_image = face_recognition.load_image_file('face/face.jpg')
+    face_path = face_recognition.load_image_file('face/face.jpg')
+    card_path = face_recognition.load_image_file('card/card.jpg')
 
-        biden_encoding = face_recognition.face_encodings(known_image)[0]
-        unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+    models = ["VGG-Face", "Facenet", "Facenet512", "OpenFace", "DeepFace", "DeepID", "ArcFace", "Dlib"]
+    model_name = "ArcFace"
 
-        return face_recognition.compare_faces([biden_encoding], unknown_encoding)
-    except:
-        return ["Face not detected"]
+    result = DeepFace.verify(img1_path=face_path, img2_path=card_path, model_name=model_name)
+
+    print(result)
+
+    return result

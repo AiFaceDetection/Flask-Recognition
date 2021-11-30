@@ -24,12 +24,12 @@ def main_frames():
         success, frame = camera.read()  # read the camera frame
 
         # card
-        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), frame[HEIGHT-int(HEIGHT//1.5):int(HEIGHT//1.5), 0+20:int(40 * WIDTH // 100)-20])
+        cv2.imwrite(os.path.join(card_dir , 'card.jpg'), frame[HEIGHT-int(HEIGHT//1.4):int(HEIGHT//1.4), 0+20:int(40 * WIDTH // 100)-20])
         # face
         cv2.imwrite(os.path.join(face_dir , 'face.jpg'), frame[0+20:HEIGHT-20, int(40 * WIDTH // 100)+20: int(40 * WIDTH // 100) + WIDTH - int(40 * WIDTH // 100)-20])
         
         # Mask for CARD
-        cv2.rectangle(frame, (0+10, int(HEIGHT//1.5)), (int(40 * WIDTH // 100)-10, HEIGHT-int(HEIGHT//1.5)), (255, 255, 255), 4)
+        cv2.rectangle(frame, (0+10, int(HEIGHT//1.4)), (int(40 * WIDTH // 100)-10, HEIGHT-int(HEIGHT//1.4)), (255, 255, 255), 4)
         # Mask for FACE
         cv2.rectangle(frame, (int(40 * WIDTH // 100)+10, 0+10), (WIDTH-10, HEIGHT-10), (255, 255, 255), 4)
         

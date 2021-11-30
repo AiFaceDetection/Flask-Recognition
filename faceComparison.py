@@ -20,29 +20,29 @@ unknown_dir = os.path.join(BASE_DIR, "unknown")
 card_dir = os.path.join(BASE_DIR, "card")
 face_dir = os.path.join(BASE_DIR, "face")
 
-# def compare():
-#     # face_file_path = os.path.join(face_dir , 'face.jpg')
-#     # card_file_path = os.path.join(face_dir , 'card.jpg')
-#     try:
-#         known_image = face_recognition.load_image_file('card/card.jpg')
-#         unknown_image = face_recognition.load_image_file('face/face.jpg')
-
-#         biden_encoding = face_recognition.face_encodings(known_image)[0]
-#         unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
-
-#         return face_recognition.compare_faces([biden_encoding], unknown_encoding)
-#     except:
-#         return ["Face not detected"]
-
 def compare():
-    face_path = face_recognition.load_image_file('face/face.jpg')
-    card_path = face_recognition.load_image_file('card/card.jpg')
+    # face_file_path = os.path.join(face_dir , 'face.jpg')
+    # card_file_path = os.path.join(face_dir , 'card.jpg')
+    try:
+        known_image = face_recognition.load_image_file('card/card.jpg')
+        unknown_image = face_recognition.load_image_file('face/face.jpg')
 
-    models = ["VGG-Face", "Facenet", "Facenet512", "OpenFace", "DeepFace", "DeepID", "ArcFace", "Dlib"]
-    model_name = "ArcFace"
+        biden_encoding = face_recognition.face_encodings(known_image)[0]
+        unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
 
-    result = DeepFace.verify(img1_path=face_path, img2_path=card_path, model_name=model_name)
+        return face_recognition.compare_faces([biden_encoding], unknown_encoding)
+    except:
+        return ["Face not detected"]
 
-    print(result)
+# def compare():
+#     face_path = face_recognition.load_image_file('face/face.jpg')
+#     card_path = face_recognition.load_image_file('card/card.jpg')
 
-    return result
+#     models = ["VGG-Face", "Facenet", "Facenet512", "OpenFace", "DeepFace", "DeepID", "ArcFace", "Dlib"]
+#     model_name = "ArcFace"
+
+#     result = DeepFace.verify(img1_path=face_path, img2_path=card_path, model_name=model_name)
+
+#     print(result)
+
+#     return result

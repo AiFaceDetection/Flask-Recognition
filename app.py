@@ -4,7 +4,6 @@ from faceIdentification import predict
 from faceComparison import compare
 import cv2
 import os
-import dlib
 
 app = Flask(__name__)
 

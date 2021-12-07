@@ -1,6 +1,15 @@
+from sklearn import neighbors
 import os
 import os.path
 import face_recognition
+from face_recognition.face_recognition_cli import image_files_in_folder
+
+import cv2
+import numpy as np
+from itertools import chain
+
+from deepface import DeepFace
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 image_dir = os.path.join(BASE_DIR, "images")
